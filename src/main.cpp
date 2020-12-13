@@ -11,55 +11,140 @@ LiquidCrystal_PCF8574 lcd(0x27);
  
   int switchA = 2;
   int A_state;
-  int A_pervious_state = HIGH;
+  int A_previous_state = HIGH;
   unsigned long A_lastkeyenter;
+  unsigned long A_timehold =  2000;
+  bool callibate = false;
   
   int switchB = 3;
   int B_state;
-  int B_pervious_state = HIGH;
+  int B_previous_state = HIGH;
   unsigned long B_keyenter;
   unsigned long B_timehold = 2000;
-  
+  bool run = true; 
+
   int switchC = 8;
   int C_state;
-  int C_pervious_state = HIGH;
+  int C_previous_state = HIGH;
   unsigned long C_lastkeyenter;
   
- // Set value
  int A = 1;
  int B = 1;
  int C = 1;
  int gel_type_select;
  int gel_num_select; 
  int gel_num_select_stacking;
+ int calpump_select;
+ unsigned long caltime_select;
  unsigned long pumpA_time;
  unsigned long pumpB_time;
  unsigned long pumpC_time;
  unsigned long pumpD_time;
 //--------------------------------------------------------------function----------------------------------------------------------------------------
-void gelNumber(int j){                                               //gelNmberfunction
-     if(C==1){
-     lcd.setCursor(0,1);
-     lcd.print("Number: ");
-     lcd.setCursor(9,1);
-     lcd.print("1");
-     gel_num_select = 1;
+void calTimefunction(int caltime){
+  switch(caltime){
+    case 1:
+      lcd.setCursor(0,1);
+      lcd.print("Time :");
+      lcd.setCursor(9,1);
+      lcd.print("5s");
+      caltime_select = 5000;
+      break;
 
+    case 2:
+      lcd.setCursor(0,1);
+      lcd.print("Time :");
+      lcd.setCursor(9,1);
+      lcd.print("10s");
+      caltime_select = 10000;
+      break;
+
+    case 3:
+      lcd.setCursor(0,1);
+      lcd.print("Time :");
+      lcd.setCursor(9,1);
+      lcd.print("20s");
+      caltime_select = 20000;
+      break;
+
+    case 4:
+      lcd.setCursor(0,1);
+      lcd.print("Time :");
+      lcd.setCursor(9,1);
+      lcd.print("40s");
+      caltime_select = 40000;
+      break;
+    
+    default :
+      C = 1;
+      calTimefunction(C);
+      break;
+    
+  }
+
+}
+void calFunction(int calpump){                                         //callibrate function
+  switch(calpump){
+    case 1:
+      lcd.clear();
+      lcd.home();
+      lcd.print("PumpA");
+      calTimefunction(C);
+      calpump_select = 1;
+      break;
+
+    case 2:
+      lcd.clear();
+      lcd.home();
+      lcd.print("PumpB");
+      calTimefunction(C);
+      calpump_select = 2;
+      break;
+
+    case 3:
+      lcd.clear();
+      lcd.home();
+      lcd.print("PumpC");
+      calTimefunction(C);
+      calpump_select = 3;
+      break;
+    
+    case 4:
+      lcd.clear();
+      lcd.home();
+      lcd.print("PumpD");
+      calTimefunction(C);
+      calpump_select = 4;
+      break;
+    
+    case 5 :
+    A = 1;
+    calFunction(A);
+    break;
+  }
+}
+void gelNumber(int j){                                               //gelNmberfunction
+  if(C==1){
+    lcd.setCursor(0,1);
+    lcd.print("Number: ");
+    lcd.setCursor(9,1);
+    lcd.print("1");
+    gel_num_select = 1;
     }
-     else if(C==2){
-     lcd.setCursor(0,1);
-     lcd.print("Number: ");
-     lcd.setCursor(9,1);
-     lcd.print("2");
-     gel_num_select = 2;
+  else if(C==2){
+    lcd.setCursor(0,1);
+    lcd.print("Number: ");
+    lcd.setCursor(9,1);
+    lcd.print("2");
+    gel_num_select = 2;
     
     }
-     else if(C==3){
-     lcd.setCursor(0,1);
-     lcd.print("Number: ");
-     lcd.setCursor(9,1);
-     lcd.print("3");
-     gel_num_select = 3;
+  else if(C==3){
+    lcd.setCursor(0,1);
+    lcd.print("Number: ");
+    lcd.setCursor(9,1);
+    lcd.print("3");
+    gel_num_select = 3;
     
     }
     else if(C==4){
@@ -92,7 +177,7 @@ void gelType(int i){                                                 //gelTypefu
      lcd.home();
      lcd.print("Gel: ");
      lcd.setCursor(4,0);
-     lcd.print("4%Streaking");
+     lcd.print("4%Stacking");
      gelNumber(C);
      gel_type_select = 2; 
      break;
@@ -109,12 +194,8 @@ void gelType(int i){                                                 //gelTypefu
 
     case 4:
       A = 1;
-      lcd.clear();
-      lcd.home();
-      lcd.print("Gel: ");
-      lcd.setCursor(4,0);
-      lcd.print("12%sperating");
-      gel_type_select = 1; 
+      gelType(A);
+      break;
     }
   }
 void pumpTime(int k){
@@ -169,24 +250,57 @@ void pumpTime(int k){
     break;
   }
 }
-void pumpRun() {                                                     //Pump fuction
+void pumpRun() {                                                    //Pump fuction
+  if(run == true){
      switch(gel_type_select){
         case 1:
-        pumpTime(gel_num_select);
+          pumpTime(gel_num_select);
         break;
 
         case 2:
-        gel_num_select_stacking = gel_num_select*10;
-        pumpTime(gel_num_select_stacking);
+          gel_num_select_stacking = gel_num_select*10;
+          pumpTime(gel_num_select_stacking);
         break;
   
         case 3:
-        pumpA_time =  2000;
-        pumpB_time =  2000;
-        pumpC_time =  2000;
-        pumpD_time =  2000;
-        break;
-     }
+          pumpA_time =  3000;
+          pumpB_time =  3000;
+          pumpC_time =  3000;
+          pumpD_time =  3000;
+          break;
+     }}
+  else{
+      switch(calpump_select){
+        case 1:
+          pumpA_time = caltime_select;
+          pumpB_time = 0;
+          pumpC_time = 0;
+          pumpD_time = 0;
+          break;
+
+        case 2:
+          pumpA_time = 0;
+          pumpB_time =caltime_select;
+          pumpC_time = 0;
+          pumpD_time = 0;
+          break;
+
+        case 3:
+          pumpA_time = 0;
+          pumpB_time = 0;
+          pumpC_time = caltime_select;
+          pumpD_time = 0;
+          break;
+
+        case 4:
+          pumpA_time = 0;
+          pumpB_time = 0;
+          pumpC_time = 0;
+          pumpD_time = caltime_select;
+          break;
+
+      }
+    }
      Serial.println(gel_num_select);
      Serial.println(gel_num_select_stacking);
      Serial.println(pumpA_time);
@@ -228,8 +342,13 @@ void pumpRun() {                                                     //Pump fuct
      lcd.home();
      lcd.print("Finish");
      delay(500);
+  if (run == true){
      gelType(A);
      gelNumber(C);
+  }
+  else{
+    calFunction(A);
+  }
     }
 void setup() { 
   
@@ -263,32 +382,105 @@ void setup() {
  digitalWrite(pumpD,HIGH);
 }
 void loop() {
-    A_state = digitalRead(switchA);                                  //switch A read
-  
-  if (A_state == LOW){
-    delay(200);
-    if (A_state == LOW){
-     
-     A = A+1;
-     A_lastkeyenter = millis();
-    }
-    }
- 
-   B_state = digitalRead(switchB);                                  //switch B read
+if (callibate == true){
+    run = false;
 
-  if (B_state == LOW && B_pervious_state == HIGH){
+  A_state = digitalRead(switchA);                                                 //switch A read
+  
+    if (A_state == LOW && A_previous_state == HIGH){
+        A_previous_state = LOW;
+        A_lastkeyenter = millis();
+    }
+   
+    if(A_state == HIGH && millis()-A_lastkeyenter < A_timehold){
+      A = A+1;
+      calFunction(A);
+      A_previous_state = HIGH;
+      A_lastkeyenter = 0;
+    }
+
+    if(A_state == LOW && (millis()-A_lastkeyenter) > A_timehold){
+      callibate = false;
+      A_previous_state = HIGH;
+      gelType(A);
+    }
+
+  B_state = digitalRead(switchB);                                                //switch B read
+
+  if (B_state == LOW && B_previous_state == HIGH){
     B_keyenter = millis();
-    B_pervious_state = LOW; 
+    B_previous_state = LOW; 
   }
   
   if (B_state == LOW && (millis()-B_keyenter) > B_timehold){
       B = B+1;
-      B_pervious_state = HIGH;
+      B_previous_state = HIGH;
   }
 
   if (B_state == HIGH && (millis()-B_keyenter) < B_timehold){
-     B_keyenter = 0;                                                            //NO Need
-     B_pervious_state = HIGH;                                                 
+     B_keyenter = 0;                                                            
+     B_previous_state = HIGH;                                                 
+  }
+  
+  if (B==2){
+    pumpRun();
+    B = 1;
+  }
+
+  C_state = digitalRead(switchC);                                              //switch C read
+  
+  if (C_state == LOW){
+    delay(200);
+    if (C_state == LOW){
+     
+     C = C+1;
+     C_lastkeyenter = millis();
+    }
+  }
+  
+  if(millis()-C_lastkeyenter < 50)
+  {
+    calFunction(A);
+  }
+}
+
+else{
+  run = true;
+  A_state = digitalRead(switchA);                                                 //switch A read
+  
+    if (A_state == LOW && A_previous_state == HIGH){
+        A_previous_state = LOW;
+        A_lastkeyenter = millis();
+    }
+   
+    if(A_state == HIGH && millis()-A_lastkeyenter < A_timehold){
+      A = A+1;
+      gelType(A);
+      A_previous_state = HIGH;
+      A_lastkeyenter = 0;
+    }
+
+    if(A_state == LOW && (millis()-A_lastkeyenter) > A_timehold){
+      callibate = true;
+      A_previous_state = HIGH;
+      calFunction(A);
+    }
+ 
+  B_state = digitalRead(switchB);                                               //switch B read
+
+  if (B_state == LOW && B_previous_state == HIGH){
+    B_keyenter = millis();
+    B_previous_state = LOW; 
+  }
+  
+  if (B_state == LOW && (millis()-B_keyenter) > B_timehold){
+      B = B+1;
+      B_previous_state = HIGH;
+  }
+
+  if (B_state == HIGH && (millis()-B_keyenter) < B_timehold){
+     B_keyenter = 0;                                                            
+     B_previous_state = HIGH;                                                 
   }
     
   C_state = digitalRead(switchC);                                              //switch C read
@@ -300,20 +492,15 @@ void loop() {
      C = C+1;
      C_lastkeyenter = millis();
     }
-    }
+    }                   
 
-    //-----------------------------------------------------------------------------Main function 
-                                               
-  if(millis()-A_lastkeyenter < 50){
-    gelType(A);
-  }
-  
-  if(millis()-C_lastkeyenter < 50)
-  {
+  if(millis()-C_lastkeyenter < 50){
     gelNumber(C);
   }
   if (B==2){
     pumpRun();
     B=1;
   }
-}   
+}
+Serial.println(A); 
+}
