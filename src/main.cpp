@@ -208,23 +208,23 @@ void pumpTime(int k){
     break;
   
   case 2:
-    pumpA_time =  8037*2;
-    pumpB_time =  7819*2;
-    pumpC_time =  17198*2;
+    pumpA_time =  16074;
+    pumpB_time =  15638;
+    pumpC_time =  34396;
     pumpD_time =  0;
     break;
   
   case 3:
-    pumpA_time =  8037*3;
-    pumpB_time =  7819*3;
-    pumpC_time =  17198*3;
+    pumpA_time =  24111;
+    pumpB_time =  23457;
+    pumpC_time =  51594;
     pumpD_time =  0;
     break;
   
   case 4 :
-    pumpA_time =  8037*4;
-    pumpB_time =  7819*4;
-    pumpC_time =  17198*4;
+    pumpA_time =  32148;
+    pumpB_time =  31276;
+    pumpC_time =  68792;
     pumpD_time =  0;
     break;
   
@@ -236,24 +236,24 @@ void pumpTime(int k){
     break;
 
   case 20:
-    pumpA_time =  11472*2;
+    pumpA_time =  22944;
     pumpB_time =  0;
-    pumpC_time =  2779*2;
-    pumpD_time =  6228*2;
+    pumpC_time =  5558;
+    pumpD_time =  12456;
     break;
 
   case 30:
-    pumpA_time =  11472*3;
+    pumpA_time =  34416;
     pumpB_time =  0;
-    pumpC_time =  2779*3;
-    pumpD_time =  6228*3;
+    pumpC_time =  8337;
+    pumpD_time =  18684;
     break;
 
   case 40:
-    pumpA_time =  11472*4;
+    pumpA_time =  45888;
     pumpB_time =  0;
-    pumpC_time =  2779*4;
-    pumpD_time =  6228*4;
+    pumpC_time =  11116;
+    pumpD_time =  24912;
     break;
 
   default:
