@@ -201,45 +201,59 @@ void gelType(int i){                                                 //gelTypefu
 void pumpTime(int k){
   switch(k){
   case 1:
-    pumpA_time =  6623;
-    pumpB_time =  9298;
-    pumpC_time =  18996;
+    pumpA_time =  8037;
+    pumpB_time =  7819;
+    pumpC_time =  17198;
     pumpD_time =  0;
     break;
   
   case 2:
-    pumpA_time =  13246;
-    pumpB_time =  18596;
-    pumpC_time =  37992;
+    pumpA_time =  8037*2;
+    pumpB_time =  7819*2;
+    pumpC_time =  17198*2;
     pumpD_time =  0;
     break;
   
   case 3:
-    pumpA_time =  19869;
-    pumpB_time =  27894;
-    pumpC_time =  56988;
+    pumpA_time =  8037*3;
+    pumpB_time =  7819*3;
+    pumpC_time =  17198*3;
     pumpD_time =  0;
     break;
   
-  case 10:
-    pumpA_time =  9597;
+  case 4 :
+    pumpA_time =  8037*4;
+    pumpB_time =  7819*4;
+    pumpC_time =  17198*4;
+    pumpD_time =  0;
+    break;
+  
+  case 10:                                               //for stacking gel
+    pumpA_time =  11472;
     pumpB_time =  0;
-    pumpC_time =  2902;
-    pumpD_time =  4857;
+    pumpC_time =  2779;
+    pumpD_time =  6228;
     break;
 
   case 20:
-    pumpA_time =  2*9597;
+    pumpA_time =  11472*2;
     pumpB_time =  0;
-    pumpC_time =  2*2902;
-    pumpD_time =  2*4857;
+    pumpC_time =  2779*2;
+    pumpD_time =  6228*2;
     break;
 
   case 30:
-    pumpA_time =  3*9597;
+    pumpA_time =  11472*3;
     pumpB_time =  0;
-    pumpC_time =  3*2902;
-    pumpD_time =  3*4857;
+    pumpC_time =  2779*3;
+    pumpD_time =  6228*3;
+    break;
+
+  case 40:
+    pumpA_time =  11472*4;
+    pumpB_time =  0;
+    pumpC_time =  2779*4;
+    pumpD_time =  6228*4;
     break;
 
   default:
@@ -502,5 +516,4 @@ else{
     B=1;
   }
 }
-Serial.println(A); 
 }
